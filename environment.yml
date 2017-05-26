@@ -1,0 +1,12 @@
+name: mbti_classification
+dependencies:
+- python=3.6
+- numpy
+- pandas
+- seaborn
+- pip
+- matplotlib
+- pip:
+  - keras
+  - tensorflow
+
