@@ -1,7 +1,7 @@
-mbti_classification
+founder_nlp_analysis
 ==============================
 
-Analyzing text to classify MBTI type
+Analyzing text of company founders
 
 Project Organization
 ------------
