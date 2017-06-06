@@ -13,7 +13,10 @@ Project Organization
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
+    │   └── raw            <- Three folders
+    │                         1) Authors : authors and mbti type
+    │                         2) Original Content Tech: speeches and text from famous tech founders
+    │                         3) svb_founders: Twitter tweets from svb founders
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
@@ -23,7 +26,7 @@ Project Organization
     │                         the creator's initials, and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── references         <- Data dictionaries. Includes the proposed data model
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting

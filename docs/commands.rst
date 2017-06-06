@@ -6,5 +6,5 @@ The Makefile contains the central entry points for common tasks related to this 
 Syncing data to S3
 ^^^^^^^^^^^^^^^^^^
 
-* `make sync_data_to_s3` will use `aws s3 sync` to recursively sync files in `data/` up to `s3://mbti-classification/data/`.
-* `make sync_data_from_s3` will use `aws s3 sync` to recursively sync files from `s3://mbti-classification/data/` to `data/`.
+* `make sync_data_to_s3` will use `aws s3 sync` to recursively sync files in `data/` up to `s3://founder-nlp-analysis/data/`.
+* `make sync_data_from_s3` will use `aws s3 sync` to recursively sync files from `s3://founder-nlp-analysis/data/` to `data/`.
