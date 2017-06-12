@@ -5,8 +5,8 @@
 #################################################################################
 
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-BUCKET = mbti-classification
-PROJECT_NAME = mbti_classification
+BUCKET = founder-nlp-analysis
+PROJECT_NAME = founder-nlp-analysis
 PYTHON_INTERPRETER = python3
 
 ifeq (,$(shell which conda))
