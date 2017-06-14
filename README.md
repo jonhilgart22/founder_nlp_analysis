@@ -13,10 +13,12 @@ Project Organization
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- Three folders
+    │   └── raw            <- Folder indlucd
     │                         1) Authors : authors and mbti type
     │                         2) Original Content Tech: speeches and text from famous tech founders
     │                         3) svb_founders: Twitter tweets from svb founders
+    |                         4) CA Pitchbook VC: Companies receiving VC investment
+    |                         5) CA Accel-Incub: Companies at accel or incub stage
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
@@ -31,7 +33,7 @@ Project Organization
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
+    ├── environment.yml   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
     ├── src                <- Source code for use in this project.
