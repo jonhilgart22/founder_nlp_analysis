@@ -9,3 +9,8 @@ founder1_sadness_tone,
 service_tier_gold, service_tier_silver, service_tier_bronze,
 size_of_founding_team, company_niche,
  num_twitter_followers"""]
+Company ID,Description,Company Name,HQ Post Code,Primary Industry Code,
+Year Founded,Growth Rate,Size Multiple,Last Financing Size,Company Name,
+Majestic Referring Domains,
+Facebook Likes,Twitter Followers,Employees,Total Raised,VC_invested,
+Twitter_Username
