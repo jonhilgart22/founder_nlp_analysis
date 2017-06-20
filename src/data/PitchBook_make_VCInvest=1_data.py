@@ -124,12 +124,10 @@ def impute_median_values(final_vc_dropFinanceZipYear_df):
     return imputed_final_df
 
 def username_search(name, company, state):
-    """Run a search on twitter for the given name. Returns the
-    first username (should be the most relevant).
+    """Run a search on twitter for the given name. Returns the first username (should be the most relevant).
     Looks to match a state location with the state locatio nof the company
 
-    First try searching for the person's name + company.
-    If that does not work, try just searching for the
+    First try searching for the person's name + company. If that does not work, try just searching for the
     person's name"""
     state = state.lower()
 
@@ -141,22 +139,32 @@ def username_search(name, company, state):
 
 
     try: # search the name and the company
-        tweets[0].screen_name
+        test = result[0].screen_name
+        screen_n = None
+
         for result in tweets:
-            if state in result.location.lower().split(" "):
-                return result.screen_name
+            location = result.location.lower().split(" ") # see if the location is in the companies state
+            if state in location:
+                screen_n =  result.screen_name
+                return screen_n
+        if screen_n == None:
+            return 'NaN'
+        else:
+            return screen_n
 
     except Exception as e: # try just the name
         try:
-
             tweets = api.search_users(q=name)
+            screen_n = None
             for result in tweets:
-                if state in result.location.lower():
-                    return result.screen_name
-
+                if state in result.location.lower().split(" "):
+                    screen_n = result.screen_name
+            if screen_n == None:
+                return "NaN"
+            else:
+                return screen_n
 
         except Exception as e:
-            print(e)
             return "NaN"
 
 
@@ -174,12 +182,12 @@ def get_twitter_usernames(imputed_final_df):
 
         if idx%100 ==0:
             print(f"Finished {idx}")
-    twitter_usernames_vc_df.append(username_search(founder,company, location ))
+        twitter_usernames_vc_df.append(username_search(founder,company, location ))
 
     imputed_final_df['Twitter_Username'] = twitter_usernames_vc_df
     # Drop rows where we couldn't find the Twitter username
     final_vc_df = ifinal_vc_df = imputed_final_df[
-        (imputed_final_df.Twitter_Username!='NaN') | (imputed_final_df.Twitter_Username!='None') ]
+        (imputed_final_df.Twitter_Username != 'NaN')  ]
     return final_vc_df
 
 
