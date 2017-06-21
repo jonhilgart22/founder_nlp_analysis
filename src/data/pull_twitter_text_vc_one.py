@@ -100,7 +100,7 @@ def save_founder_tweets(input_df, file_input, api):
         try:
             tweets = get_all_tweets(twitter_username, api )
             scrubbed_tweets = scrub_text(tweets)
-            with open(f"../data/raw/founders_tweets/{file_input}/{company}-{founder}-{twitter_username}",
+            with open(f"../../data/raw/founders_tweets/{file_input}/{company}-{founder}-{twitter_username}",
                       "wb") as output_file:
                 pickle.dump(scrubbed_tweets, output_file,
                             protocol=pickle.HIGHEST_PROTOCOL)
