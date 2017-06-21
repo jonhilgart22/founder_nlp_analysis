@@ -11,8 +11,8 @@ from textblob import TextBlob
 from collections import Counter
 import pickle
 import sys
-from PitchBook_make_VCInvest=1_data import read_in_data, drop_cols, impute_median_values, get_twitter_usernames
-from pull_twitter_text_vc=1 import get_all_tweets, scrub_text, save_founder_tweets
+from PitchBook_make_VCInvest_one_data import read_in_data, drop_cols, impute_median_values, get_twitter_usernames
+from pull_twitter_text_vc_one import get_all_tweets, scrub_text, save_founder_tweets
 
 if __name__ == '__main__':
     ######### STEP ONE ############
@@ -35,10 +35,11 @@ if __name__ == '__main__':
     twitter_api = tweepy.API(auth, wait_on_rate_limit=True,
                      wait_on_rate_limit_notify=True)
     try:
-        founder_company_df = pd.read_csv(str(sys.argv[1]))
+        founder_company_df = pd.read_csv(
+            "../../data/processed/PitchBook_CA_VCInvest=1.csv")
     except:
         print('You entered the incorrect file path')
-    file_input = sys.argv[2] # either vc_invest=1 or vc_invest=0
+    file_input = 'vc_invest=1' # either vc_invest=1 or vc_invest=0
     # get all the text and save it
     save_founder_tweets(founder_company_df, file_input, twitter_api)
     ######### STEP THREE #############

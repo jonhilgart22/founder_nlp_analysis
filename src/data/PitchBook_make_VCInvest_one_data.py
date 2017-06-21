@@ -123,19 +123,22 @@ def impute_median_values(final_vc_dropFinanceZipYear_df):
         imputed_final_df.loc[:,key] = updated_col
     return imputed_final_df
 
-def username_search(name, company, state):
+def username_search(name, company, state, c = 20):
     """Run a search on twitter for the given name. Returns the first username (should be the most relevant).
     Looks to match a state location with the state locatio nof the company
 
     First try searching for the person's name + company. If that does not work, try just searching for the
-    person's name"""
+    person's name.
+
+    Count is for the number of results to return. Default to twenty. If not in the first twenty results, probably not
+    the correct user"""
     state = state.lower()
 
     credentials = yaml.load(open(os.path.expanduser('~/.ssh/api_credentials.yml')))
     auth = tweepy.OAuthHandler(credentials['twitter']['consumer_key'], credentials['twitter']['consumer_secret'],)
     auth.set_access_token(credentials['twitter']['token'], credentials['twitter']['token_secret'])
     api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-    tweets = api.search_users(q=str(name)+" "+str(company))
+    tweets = api.search_users(q=str(name)+" "+str(company), count=c)
 
 
     try: # search the name and the company
@@ -145,8 +148,8 @@ def username_search(name, company, state):
         for result in tweets:
             location = result.location.lower().split(" ") # see if the location is in the companies state
             if state in location:
-                screen_n =  result.screen_name
-                return screen_n
+                return result.screen_name
+
         if screen_n == None:
             return 'NaN'
         else:
@@ -154,11 +157,14 @@ def username_search(name, company, state):
 
     except Exception as e: # try just the name
         try:
-            tweets = api.search_users(q=name)
+
+            tweets = api.search_users(q=name, count = c)
+
             screen_n = None
             for result in tweets:
                 if state in result.location.lower().split(" "):
-                    screen_n = result.screen_name
+
+                    return result.screen_name
             if screen_n == None:
                 return "NaN"
             else:
