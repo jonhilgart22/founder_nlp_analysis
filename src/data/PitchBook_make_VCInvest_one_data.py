@@ -92,7 +92,7 @@ def drop_cols(final_vc_df):
 
     # Add VCinvest = 1
     ones = np.array([1 for _ in range(len(final_vc_dropFinanceZipYear_df ))]).reshape(-1,1)
-    final_vc_dropFinanceZipYear_df.loc[:,'VC_invested'] = ones
+    final_vc_dropFinanceZipYear_df.loc[:,'vc_invest'] = ones
     return final_vc_dropFinanceZipYear_df
 
 

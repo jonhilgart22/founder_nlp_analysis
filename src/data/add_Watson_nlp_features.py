@@ -73,17 +73,18 @@ def aggregated_tone_analyzer(sentences_list, n_sentences=250):
                 print(f"{idx+1} sentences analyzed")
             except Exception as e:
                 print(e)
-                 sentences_chunk = "" # reset our sentence chunk to account for bad JSON
+                sentences_chunk = "" # reset our sentence chunk to account for bad JSON
 
     return emotional_tones , language_tones , social_tones
 
 
-def add_nlp_features(input_df):
+def add_nlp_features(input_df,vc_type):
     """Feed in a dataframe that contains the company name, primary contact,
      and primary contacts twitter handle.
     Opens up the text file from that Twitter handle and runs it through
     the Watson APIs to get features on
     emotional, language, and social tones.
+    VC type should be either 1 or 0
 
     Returns a the dataframe with these features appended."""
     total_rows = len(input_df)
@@ -113,7 +114,7 @@ def add_nlp_features(input_df):
         company = row[1]['Company Name']
         search = company +"-"+primary_contact+"-"+handle
         try: # see if we have tweets for this founder
-            with open(f"../data/raw/founders_tweets/vc_invest=1/{search}",'rb') as fp: # open up founder text
+            with open(f"../../data/raw/founders_tweets/vc_invest={vc_type}/{search}",'rb') as fp: # open up founder text
                 text_data = pickle.load(fp)
             emotional, language, social = aggregated_tone_analyzer(text_data)
             emotional_tones_anger.append(emotional['anger'])
@@ -134,7 +135,8 @@ def add_nlp_features(input_df):
 
             if (idx % 10 == 0) & (idx >0):
                 print(f"{idx/total_rows:.2%} finished")
-        except:# append NaN since we don't have text for this founder
+        except Exception as e:# append NaN since we don't have text for this founder
+            print(e)
             emotional_tones_anger.append("NaN")
             emotional_tones_disgust.append("NaN")
             emotional_tones_fear.append("NaN")
@@ -173,16 +175,18 @@ def add_nlp_features(input_df):
 
     final_df = final_df[final_df['analytical']!='NaN']
      #Convert columns to numeric type
-    final_df_nlp = final_df_nlp.apply(pd.to_numeric, errors='ignore')
+    final_df = final_df.apply(pd.to_numeric, errors='ignore')
 
     return final_df
 
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     # load in data
     #"../../data/processed/PitchBook_CA_VCInvest=1.csv"
-    vc1_pitchbook_df = pd.read_csv(sys.argv[1])
-    final_df = add_nlp_features(vc1_pitchbook_df )
+    #../../data/processed/PitchBook_CA_VCInvest=0.csv
+    pitchbook_df = pd.read_csv(sys.argv[1])
+    final_df = add_nlp_features(pitchbook_df, vc_type=0) # add vc type here
     # save csv
     # "../../data/processed/PitchBook_CA_VCInvest=1_NLP-features.csv"
+    #../../data/processed/PitchBook_CA_VCInvest=0_NLP-features.csv
     final_df.to_csv(sys.argv[2])
