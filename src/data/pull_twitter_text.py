@@ -125,8 +125,11 @@ if __name__ == "__main__":
     twitter_api = tweepy.API(auth, wait_on_rate_limit=True,
                      wait_on_rate_limit_notify=True)
     # pass the file via the CLI to get the text from Twitter
+	# ../../data/processed/PitchBook_CA_VCInvest=1.csv"
+	#../../data/processed/PitchBook_CA_VCInvest=0.csv
     try:
         founder_company_df = pd.read_csv(str(sys.argv[1]))
+	
     except:
         print('You entered the incorrect file path')
     file_input = sys.argv[2] # either vc_invest=1 or vc_invest=0

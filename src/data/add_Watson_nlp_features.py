@@ -114,7 +114,7 @@ def add_nlp_features(input_df,vc_type):
         company = row[1]['Company Name']
         search = company +"-"+primary_contact+"-"+handle
         try: # see if we have tweets for this founder
-            with open(f"../../data/raw/founders_tweets/vc_invest={vc_type}/{search}",'rb') as fp: # open up founder text
+            with open(f"../../data/raw/founders_tweets/{vc_type}/{search}",'rb') as fp: # open up founder text
                 text_data = pickle.load(fp)
             emotional, language, social = aggregated_tone_analyzer(text_data)
             emotional_tones_anger.append(emotional['anger'])
@@ -182,11 +182,11 @@ def add_nlp_features(input_df,vc_type):
 
 if __name__ == "__main__":
     # load in data
-    #"../../data/processed/PitchBook_CA_VCInvest=1.csv"
+    # ../../data/processed/PitchBook_CA_VCInvest=1.csv
     #../../data/processed/PitchBook_CA_VCInvest=0.csv
     pitchbook_df = pd.read_csv(sys.argv[1])
-    final_df = add_nlp_features(pitchbook_df, vc_type=0) # add vc type here
+    final_df = add_nlp_features(pitchbook_df, sys.argv[2]) # vc_invest=0, vc_invest=1
     # save csv
-    # "../../data/processed/PitchBook_CA_VCInvest=1_NLP-features.csv"
+    # "../../data/processed/PitchBook_CA_VCInvest=1_NLP-features.csv
     #../../data/processed/PitchBook_CA_VCInvest=0_NLP-features.csv
-    final_df.to_csv(sys.argv[2])
+    final_df.to_csv(sys.argv[3])
