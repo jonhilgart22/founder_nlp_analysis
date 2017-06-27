@@ -75,25 +75,39 @@ def read_in_data():
 # - Last Financing Valuation: Drop this ( too many nulls)
 
 def drop_cols(final_vc_df):
-    """Drop columns that are not necessary for the analysis"""
+    """Drop columns that are not necessary for the analysis.
+    Only want Series A companies"""
     print("Dropping irrelevant columns")
 
     final_vc_financeTypeFilter_df = final_vc_df.loc[(
         final_vc_df['Last Financing Deal Type 2 ']!='Seed') &
                     (final_vc_df['Last Financing Deal Type 2 ']!='Angel'),: ]
-    final_vc_dropFinanceZipYear_df = final_vc_financeTypeFilter_df.loc[
-        (final_vc_financeTypeFilter_df['HQ Post Code'].isnull()==False) &
-        (final_vc_financeTypeFilter_df['Year Founded'].isnull()==False) &
-        (final_vc_financeTypeFilter_df['Primary Contact'].isnull()==False),: ]
+    final_vc_financeTypeFilter_df = final_vc_df.loc[
+        (final_vc_df['Last Financing Deal Type 2 ']!='Seed') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Angel') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series B') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series B2')   &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series B1') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series D') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series C') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series E') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series 2') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series CC') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series F') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series G') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series C3') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series 3') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series B3') &
+        (final_vc_df['Last Financing Deal Type 2 ']!='Series C1'), : ]
     # first drop last financing valuation (not enough data)
-    final_vc_dropFinanceZipYear_df.drop(['Last Financing Valuation'], axis=1,
+    final_vc_financeTypeFilter_df.drop(['Last Financing Valuation'], axis=1,
                                         inplace=True)
 
 
     # Add VCinvest = 1
-    ones = np.array([1 for _ in range(len(final_vc_dropFinanceZipYear_df ))]).reshape(-1,1)
-    final_vc_dropFinanceZipYear_df.loc[:,'vc_invest'] = ones
-    return final_vc_dropFinanceZipYear_df
+    ones = np.array([1 for _ in range(len(final_vc_financeTypeFilter_df))]).reshape(-1,1)
+    final_vc_financeTypeFilter_dff.loc[:,'vc_invest'] = ones
+    return final_vc_financeTypeFilter_df
 
 
 # Impute missing values
@@ -138,10 +152,10 @@ def username_search(name, company, state, c = 20):
     auth = tweepy.OAuthHandler(credentials['twitter']['consumer_key'], credentials['twitter']['consumer_secret'],)
     auth.set_access_token(credentials['twitter']['token'], credentials['twitter']['token_secret'])
     api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-    tweets = api.search_users(q=str(name)+" "+str(company), count=c)
 
 
     try: # search the name and the company
+        tweets = api.search_users(q=str(name)+" "+str(company), count=c)
         test = result[0].screen_name
         screen_n = None
 
@@ -170,12 +184,12 @@ def username_search(name, company, state, c = 20):
             else:
                 return screen_n
 
+
         except Exception as e:
             return "NaN"
 
 
-
-# ### Add the Twitter username to the pandas df for the VC dataframe
+# Add the Twitter username to the pandas df for the VC dataframe
 
 def get_twitter_usernames(imputed_final_df):
     """Return the Twitter username from the """
@@ -187,12 +201,12 @@ def get_twitter_usernames(imputed_final_df):
         founder = row[1]['Primary Contact']
 
         if idx%100 ==0:
-            print(f"Finished {idx}")
+            print(f"Finished {idx/len(imputed_final_df)}")
         twitter_usernames_vc_df.append(username_search(founder,company, location ))
 
     imputed_final_df['Twitter_Username'] = twitter_usernames_vc_df
     # Drop rows where we couldn't find the Twitter username
-    final_vc_df = ifinal_vc_df = imputed_final_df[
+    final_vc_df = imputed_final_df[
         (imputed_final_df.Twitter_Username != 'NaN')  ]
     return final_vc_df
 

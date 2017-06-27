@@ -175,7 +175,6 @@ def out_of_funding(imputed_final_df):
     return imputed_final_df
 
 # Find Twitter usernames
-
 def username_search(name, company, state, c = 20):
     """Run a search on twitter for the given name. Returns the first username (should be the most relevant).
     Looks to match a state location with the state locatio nof the company
@@ -191,8 +190,10 @@ def username_search(name, company, state, c = 20):
     auth = tweepy.OAuthHandler(credentials['twitter']['consumer_key'], credentials['twitter']['consumer_secret'],)
     auth.set_access_token(credentials['twitter']['token'], credentials['twitter']['token_secret'])
     api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-    tweets = api.search_users(q=str(name)+" "+str(company), count=c)
+
+
     try: # search the name and the company
+        tweets = api.search_users(q=str(name)+" "+str(company), count=c)
         test = result[0].screen_name
         screen_n = None
 
@@ -220,6 +221,7 @@ def username_search(name, company, state, c = 20):
                 return "NaN"
             else:
                 return screen_n
+
 
         except Exception as e:
             return "NaN"
