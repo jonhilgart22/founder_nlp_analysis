@@ -1,2 +1,2 @@
-model_checkpoint_path: "MLP_sentiment"
-all_model_checkpoint_paths: "MLP_sentiment"
+model_checkpoint_path: "MLP_sentiment_tfidf"
+all_model_checkpoint_paths: "MLP_sentiment_tfidf"
