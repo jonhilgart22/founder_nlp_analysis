@@ -1,2 +1,4 @@
-model_checkpoint_path: "MLP_sentiment_tfidf"
-all_model_checkpoint_paths: "MLP_sentiment_tfidf"
+model_checkpoint_path: "lstm_model-30000"
+all_model_checkpoint_paths: "lstm_model-10000"
+all_model_checkpoint_paths: "lstm_model-20000"
+all_model_checkpoint_paths: "lstm_model-30000"
