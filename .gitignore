@@ -72,3 +72,4 @@ target/
 # exclude data from source control by default
 # /data/
 /data/raw/Twitter_Sentiment_Analysis
+notebooks/tensorboard/*

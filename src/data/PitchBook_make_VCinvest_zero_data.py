@@ -6,7 +6,7 @@ import os
 import tweepy
 __author__ = 'Jonathan Hilgart'
 
-def read_in_data():
+def read_in_data_vc_zero():
     """Read in data from PitchBook for companies that either have
     Angel or Seed investment.
     Returns a dataframe with these individual excel sheets merged together."""
@@ -65,7 +65,7 @@ def read_in_data():
         (final_acc_incub_df['Last Financing Deal Type 2 ']!='Series A3'),: ]
     return final_acc_incub_df
 
-def drop_cols(final_acc_incub_filter_df):
+def drop_cols_vc_zero(final_acc_incub_filter_df):
     """# Drop companies missing the zip code, year founded, and primary contact
     - ALso drop if we don't have the last financing date.
         Need this to determine the 'runway' for each company
@@ -80,7 +80,7 @@ def drop_cols(final_acc_incub_filter_df):
     (final_acc_incub_filter_df['Last Financing Size'].isnull()==False),: ]
     return final_acc_incub_filter_df
 
-def impute_missing_values(final_acc_incub_filter_df):
+def impute_missing_values_vc_zero(final_acc_incub_filter_df):
     """Impute some of the missing values for this dataframe.
     # Impute missing values
     - Growth Rate : impute median
@@ -110,7 +110,7 @@ def impute_missing_values(final_acc_incub_filter_df):
     return imputed_final_df
 
 
-def out_of_funding(imputed_final_df):
+def out_of_funding_vc_zero(imputed_final_df):
     """FOr each company in the input DF look at three variables
     1) Number of Employees
     2) Size of last fundrasing rounds (in millions)
@@ -175,7 +175,7 @@ def out_of_funding(imputed_final_df):
     return imputed_final_df
 
 # Find Twitter usernames
-def username_search(name, company, state, c = 20):
+def username_search_vc_zero(name, company, state, c = 20):
     """Run a search on twitter for the given name. Returns the first username (should be the most relevant).
     Looks to match a state location with the state locatio nof the company
 
@@ -227,7 +227,7 @@ def username_search(name, company, state, c = 20):
             return "NaN"
 
 
-def find_twitter_usernames(imputed_final_df):
+def find_twitter_usernames_vc_zero(imputed_final_df):
     """Look up the Tiwtter handle of the primary contact for each company."""
 
     twitter_usernames_accel_incub_df = []
@@ -248,13 +248,13 @@ def find_twitter_usernames(imputed_final_df):
 
 if __name__ == "__main__":
     print("Read in data")
-    initial_df = read_in_data()
+    initial_df = read_in_data_vc_zero()
     print("Drop Cols")
-    dropped_df = drop_cols(initial_df)
+    dropped_df = drop_cols_vc_zero(initial_df)
     print("Imputing values")
-    imputed_df = impute_missing_values(dropped_df)
+    imputed_df = impute_missing_values_vc_zero(dropped_df)
     print("Finding companies out of runway")
-    out_of_funding_df = out_of_funding(imputed_df)
-    finished_acc_incub_df = find_twitter_usernames(out_of_funding_df)
+    out_of_funding_df = out_of_funding_vc_zero(imputed_df)
+    finished_acc_incub_df = find_twitter_usernames_vc_zero(out_of_funding_df)
 
     finished_acc_incub_df.to_csv("../../data/processed/PitchBook_CA_VCInvest=0.csv")
