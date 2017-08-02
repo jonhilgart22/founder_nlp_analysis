@@ -1,7 +1,7 @@
 founder_nlp_analysis
 ==============================
 
-Analyzing text of company founders
+Analyzing text of company founders to predict if a VC will invest or not.
 
 Project Organization
 ------------
