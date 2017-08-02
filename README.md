@@ -1,4 +1,4 @@
-founder_nlp_analysis
+ founder_nlp_analysis
 ==============================
 
 Analyzing text of company founders to predict if a VC will invest in the company or not.
